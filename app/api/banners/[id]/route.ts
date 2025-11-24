@@ -1,6 +1,6 @@
-// import { connectDB } from '@/lib/db';
-// import { Banner } from '@/lib/models/banner';
-// import { NextRequest, NextResponse } from 'next/server';
+import { connectDB } from '@/lib/db';
+import { Banner } from '@/lib/models/banner';
+import { NextRequest, NextResponse } from 'next/server';
 
 // export async function PUT(
 //   request: NextRequest,
@@ -33,30 +33,30 @@
 //   }
 // }
 
-// export async function DELETE(
-//   request: NextRequest,
-//   context: { params: { id: string } }
-// ) {
-//   const { params } = context;
+export async function DELETE(
+  request: NextRequest,
+  context: { params: { id: string } }
+) {
+  const { params } = context;
 
-//   try {
-//     await connectDB();
+  try {
+    await connectDB();
 
-//     const banner = await Banner.findByIdAndDelete(params.id);
+    const banner = await Banner.findByIdAndDelete(params.id);
 
-//     if (!banner) {
-//       return NextResponse.json(
-//         { error: 'Banner not found' },
-//         { status: 404 }
-//       );
-//     }
+    if (!banner) {
+      return NextResponse.json(
+        { error: 'Banner not found' },
+        { status: 404 }
+      );
+    }
 
-//     return NextResponse.json({ message: 'Banner deleted successfully' });
-//   } catch (error) {
-//     console.error('Error deleting banner:', error);
-//     return NextResponse.json(
-//       { error: 'Failed to delete banner' },
-//       { status: 500 }
-//     );
-//   }
-// }
+    return NextResponse.json({ message: 'Banner deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting banner:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete banner' },
+      { status: 500 }
+    );
+  }
+}
