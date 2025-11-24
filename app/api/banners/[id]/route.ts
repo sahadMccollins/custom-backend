@@ -33,29 +33,46 @@ import { NextRequest, NextResponse } from 'next/server';
 //   }
 // }
 
-export async function DELETE(
-  request: NextRequest,
-  context: { params: { id: string } }
-) {
-  const { params } = context;
+// export async function DELETE(
+//   request: NextRequest,
+//   context: { params: { id: string } }
+// ) {
+//   const { params } = context;
 
+//   try {
+//     await connectDB();
+
+//     const banner = await Banner.findByIdAndDelete(params.id);
+
+//     if (!banner) {
+//       return NextResponse.json(
+//         { error: 'Banner not found' },
+//         { status: 404 }
+//       );
+//     }
+
+//     return NextResponse.json({ message: 'Banner deleted successfully' });
+//   } catch (error) {
+//     console.error('Error deleting banner:', error);
+//     return NextResponse.json(
+//       { error: 'Failed to delete banner' },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+export async function GET(request: NextRequest) {
   try {
     await connectDB();
+    const section = request.nextUrl.searchParams.get('section');
 
-    const banner = await Banner.findByIdAndDelete(params.id);
-
-    if (!banner) {
-      return NextResponse.json(
-        { error: 'Banner not found' },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({ message: 'Banner deleted successfully' });
+    const query = section ? { section } : {};
+    const banners = await Banner.find(query).sort({ order: 1 });
+    return NextResponse.json(banners);
   } catch (error) {
-    console.error('Error deleting banner:', error);
+    console.error('Error fetching banners:', error);
     return NextResponse.json(
-      { error: 'Failed to delete banner' },
+      { error: 'Failed to fetch banners' },
       { status: 500 }
     );
   }
