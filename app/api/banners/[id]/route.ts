@@ -4,8 +4,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
+
   try {
     await connectDB();
     const body = await request.json();
@@ -33,10 +35,13 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
+
   try {
     await connectDB();
+
     const banner = await Banner.findByIdAndDelete(params.id);
 
     if (!banner) {
