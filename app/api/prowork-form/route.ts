@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Allow-Headers": "*",
 };
 
 export async function OPTIONS() {
@@ -16,7 +16,26 @@ export async function OPTIONS() {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { name, email, phone, message } = body;
+        const { name, email, phone, message, token } = body;
+
+        const verify = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
+        });
+
+        const verification = await verify.json();
+        console.log("reCAPTCHA verification:", verification);
+
+        // ❌ You used res.status — that's Express style, not Next.js
+        if (!verification.success) {
+            return NextResponse.json({ success: false, error: "reCAPTCHA failed" }, { status: 400 });
+        }
+
+        // Optional: double-check score (only for reCAPTCHA v3)
+        // if (verification.score && verification.score < 0.5) {
+        //     return NextResponse.json({ success: false, error: "Low reCAPTCHA score" }, { status: 400 });
+        // }
 
         if (!name || !email) {
             return NextResponse.json(
