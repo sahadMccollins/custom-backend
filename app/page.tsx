@@ -20,7 +20,7 @@ export default function Home() {
         <div className="grid gap-8 lg:grid-cols-2">
           <SplashScreenSection />
 
-          <BannersSection />
+          {/* <BannersSection /> */}
         </div>
       </div>
     </main>
