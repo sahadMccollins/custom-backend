@@ -116,7 +116,7 @@ export function BannersSection() {
             link: '',
             section,
             order: 0,
-            template: '',
+            template: 'template1',
             collectionTitle: '',
             collectionImage: '',
             collectionBg: "#f7ed57",
@@ -187,6 +187,8 @@ export function BannersSection() {
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this banner?')) return;
 
+
+        console.log("id he", id);
         try {
             const res = await fetch(`/api/banners/${id}`, {
                 method: 'DELETE',
@@ -428,7 +430,7 @@ export function BannersSection() {
                                                     size="sm"
                                                     onClick={() => handleDelete(banner._id)}
                                                 >
-                                                    <Trash2 className="w-4 h-4" />
+                                                    <Trash2 className="w-4 h-4" /> 
                                                 </Button>
                                             </div>
                                         </div>

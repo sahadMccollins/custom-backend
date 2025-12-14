@@ -3,10 +3,13 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IBanner extends Document {
     title: string;
     imageUrl: string;
-    description?: string;
     link?: string;
     section: 'top' | 'section-1' | 'section-2' | 'section-3';
     order: number;
+    template: string;
+    collectionTitle: string;
+    collectionImage: string;
+    collectionBg: string;
     updatedAt: Date;
     createdAt: Date;
 }
@@ -21,8 +24,10 @@ const bannerSchema = new Schema<IBanner>(
             type: String,
             required: true,
         },
-        description: String,
-        link: String,
+        link: {
+            type: String,
+            default: '',
+        },
         section: {
             type: String,
             enum: ['top', 'section-1', 'section-2', 'section-3'],
@@ -33,8 +38,28 @@ const bannerSchema = new Schema<IBanner>(
             type: Number,
             default: 0,
         },
+        template: {
+            type: String,
+            default: 'template1',
+            select: true,
+        },
+        collectionTitle: {
+            type: String,
+            default: '',
+            select: true,
+        },
+        collectionImage: {
+            type: String,
+            default: '',
+            select: true,
+        },
+        collectionBg: {
+            type: String,
+            default: '#f7ed57',
+            select: true,
+        },
     },
-    { timestamps: true }
+    { timestamps: true, minimize: false, strict: true }
 );
 
 export const Banner =
