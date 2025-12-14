@@ -4,15 +4,15 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { params } = context;
+  const { id } = await params;
 
   try {
     await connectDB();
     const body = await request.json();
 
-    const banner = await Banner.findByIdAndUpdate(params.id, body, {
+    const banner = await Banner.findByIdAndUpdate(id, body, {
       new: true,
     });
 
