@@ -306,6 +306,7 @@ export function BannersSection() {
                                                 <option value="">Select Template</option>
                                                 <option value="template1">Template 1</option>
                                                 <option value="template2">Template 2</option>
+                                                <option value="ramadan">Ramadan</option>
                                             </select>
                                         </div>
 
