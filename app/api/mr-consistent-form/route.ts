@@ -72,6 +72,20 @@ export async function POST(request: NextRequest) {
       `,
         });
 
+        const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL;
+
+        if (!GOOGLE_SCRIPT_URL) {
+            throw new Error("Missing GOOGLE_SCRIPT_URL");
+        }
+
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
+
         return NextResponse.json(
             { success: true },
             { status: 200, headers: corsHeaders }
